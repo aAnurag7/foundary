@@ -955,8 +955,8 @@
       }
     },
     "test/Counter.t.sol": {
-      "lastModificationDate": 1689686393633,
-      "contentHash": "88d9c43896cc647230b5419968802a2d",
+      "lastModificationDate": 1689686978983,
+      "contentHash": "02bda5faf8ffe4fa9a96dc227fb58f1a",
       "sourceName": "test/Counter.t.sol",
       "solcConfig": {
         "settings": {
@@ -1012,6 +1012,69 @@
       "artifacts": {
         "CounterTest": {
           "0.8.20+commit.a1b79de6.Linux.gcc": "Counter.t.sol/CounterTest.json"
+        }
+      }
+    },
+    "test/Invariant.t.sol": {
+      "lastModificationDate": 1689688404825,
+      "contentHash": "682b3955a424db5d988f3cbeae6fb71f",
+      "sourceName": "test/Invariant.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "useLiteralContent": false,
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "paris",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol"
+      ],
+      "versionRequirement": "^0.8.13",
+      "artifacts": {
+        "ExampleContract1": {
+          "0.8.20+commit.a1b79de6.Linux.gcc": "Invariant.t.sol/ExampleContract1.json"
+        },
+        "InvariantExample1": {
+          "0.8.20+commit.a1b79de6.Linux.gcc": "Invariant.t.sol/InvariantExample1.json"
         }
       }
     },
