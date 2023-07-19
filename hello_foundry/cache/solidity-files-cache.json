@@ -857,10 +857,10 @@
         }
       }
     },
-    "script/Counter.s.sol": {
-      "lastModificationDate": 1689676553547,
-      "contentHash": "0705c52104730a78aef4aa6694175c81",
-      "sourceName": "script/Counter.s.sol",
+    "script/Admin.s.sol": {
+      "lastModificationDate": 1689744781412,
+      "contentHash": "adf50068d7a041a9904e0508021ce872",
+      "sourceName": "script/Admin.s.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -904,19 +904,20 @@
         "lib/forge-std/src/console.sol",
         "lib/forge-std/src/console2.sol",
         "lib/forge-std/src/interfaces/IMulticall3.sol",
-        "lib/forge-std/src/safeconsole.sol"
+        "lib/forge-std/src/safeconsole.sol",
+        "src/Admin.sol"
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
-        "CounterScript": {
-          "0.8.20+commit.a1b79de6.Linux.gcc": "Counter.s.sol/CounterScript.json"
+        "AdminScript": {
+          "0.8.20+commit.a1b79de6.Linux.gcc": "Admin.s.sol/AdminScript.json"
         }
       }
     },
-    "src/Counter.sol": {
-      "lastModificationDate": 1689680881741,
-      "contentHash": "ae6c800a2b4c57768024d6e9423d39e8",
-      "sourceName": "src/Counter.sol",
+    "src/Admin.sol": {
+      "lastModificationDate": 1689744446596,
+      "contentHash": "fd1e5704638c1232a4ca41794c8e787b",
+      "sourceName": "src/Admin.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -949,15 +950,15 @@
       "imports": [],
       "versionRequirement": "^0.8.13",
       "artifacts": {
-        "Counter": {
-          "0.8.20+commit.a1b79de6.Linux.gcc": "Counter.sol/Counter.json"
+        "Admin": {
+          "0.8.20+commit.a1b79de6.Linux.gcc": "Admin.sol/Admin.json"
         }
       }
     },
-    "test/Counter.t.sol": {
-      "lastModificationDate": 1689686978983,
-      "contentHash": "02bda5faf8ffe4fa9a96dc227fb58f1a",
-      "sourceName": "test/Counter.t.sol",
+    "test/Admin.t.sol": {
+      "lastModificationDate": 1689744613781,
+      "contentHash": "b8337152de033b20087392fd151bfdd3",
+      "sourceName": "test/Admin.t.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -1006,12 +1007,12 @@
         "lib/forge-std/src/console2.sol",
         "lib/forge-std/src/interfaces/IMulticall3.sol",
         "lib/forge-std/src/safeconsole.sol",
-        "src/Counter.sol"
+        "src/Admin.sol"
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
-        "CounterTest": {
-          "0.8.20+commit.a1b79de6.Linux.gcc": "Counter.t.sol/CounterTest.json"
+        "AdminTest": {
+          "0.8.20+commit.a1b79de6.Linux.gcc": "Admin.t.sol/AdminTest.json"
         }
       }
     },
