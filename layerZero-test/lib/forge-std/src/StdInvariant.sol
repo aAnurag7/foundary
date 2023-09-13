@@ -9,11 +9,6 @@ abstract contract StdInvariant {
         bytes4[] selectors;
     }
 
-    struct FuzzInterface {
-        address addr;
-        string[] artifacts;
-    }
-
     address[] private _excludedContracts;
     address[] private _excludedSenders;
     address[] private _targetedContracts;
@@ -24,8 +19,6 @@ abstract contract StdInvariant {
 
     FuzzSelector[] private _targetedArtifactSelectors;
     FuzzSelector[] private _targetedSelectors;
-
-    FuzzInterface[] private _targetedInterfaces;
 
     // Functions for users:
     // These are intended to be called in tests.
@@ -62,10 +55,6 @@ abstract contract StdInvariant {
         _targetedSenders.push(newTargetedSender_);
     }
 
-    function targetInterface(FuzzInterface memory newTargetedInterface_) internal {
-        _targetedInterfaces.push(newTargetedInterface_);
-    }
-
     // Functions for forge:
     // These are called by forge to run invariant tests and don't need to be called in tests.
 
@@ -99,9 +88,5 @@ abstract contract StdInvariant {
 
     function targetSenders() public view returns (address[] memory targetedSenders_) {
         targetedSenders_ = _targetedSenders;
-    }
-
-    function targetInterfaces() public view returns (FuzzInterface[] memory targetedInterfaces_) {
-        targetedInterfaces_ = _targetedInterfaces;
     }
 }

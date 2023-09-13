@@ -4,7 +4,6 @@ pragma solidity >=0.6.2 <0.9.0;
 pragma experimental ABIEncoderV2;
 
 import {StdStorage, stdStorage} from "./StdStorage.sol";
-import {console2} from "./console2.sol";
 import {Vm} from "./Vm.sol";
 
 abstract contract StdCheatsSafe {
@@ -342,11 +341,8 @@ abstract contract StdCheatsSafe {
     }
 
     function assumeNotForgeAddress(address addr) internal pure virtual {
-        // vm, console, and Create2Deployer addresses
-        vm.assume(
-            addr != address(vm) && addr != 0x000000000000000000636F6e736F6c652e6c6f67
-                && addr != 0x4e59b44847b379578588920cA78FbF26c0B4956C
-        );
+        // vm and console addresses
+        vm.assume(addr != address(vm) || addr != 0x000000000000000000636F6e736F6c652e6c6f67);
     }
 
     function readEIP1559ScriptArtifact(string memory path)
@@ -641,7 +637,6 @@ abstract contract StdCheats is StdCheatsSafe {
 
     StdStorage private stdstore;
     Vm private constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
-    address private constant CONSOLE2_ADDRESS = 0x000000000000000000636F6e736F6c652e6c6f67;
 
     // Skip forward or rewind time by the specified number of seconds
     function skip(uint256 time) internal virtual {
@@ -697,7 +692,6 @@ abstract contract StdCheats is StdCheatsSafe {
     }
 
     function changePrank(address msgSender) internal virtual {
-        console2_log("changePrank is deprecated. Please use vm.startPrank instead.");
         vm.stopPrank();
         vm.startPrank(msgSender);
     }
@@ -807,11 +801,5 @@ abstract contract StdCheats is StdCheatsSafe {
         (bool success, bytes memory runtimeBytecode) = where.call{value: value}("");
         require(success, "StdCheats deployCodeTo(string,bytes,uint256,address): Failed to create runtime bytecode.");
         vm.etch(where, runtimeBytecode);
-    }
-
-    // Used to prevent the compilation of console, which shortens the compilation time when console is not used elsewhere.
-    function console2_log(string memory p0) private view {
-        (bool status,) = address(CONSOLE2_ADDRESS).staticcall(abi.encodeWithSignature("log(string)", p0));
-        status;
     }
 }

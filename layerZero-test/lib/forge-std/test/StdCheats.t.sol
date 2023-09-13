@@ -14,34 +14,34 @@ contract StdCheatsTest is Test {
         test = new Bar();
     }
 
-    function test_Skip() public {
+    function testSkip() public {
         vm.warp(100);
         skip(25);
         assertEq(block.timestamp, 125);
     }
 
-    function test_Rewind() public {
+    function testRewind() public {
         vm.warp(100);
         rewind(25);
         assertEq(block.timestamp, 75);
     }
 
-    function test_Hoax() public {
+    function testHoax() public {
         hoax(address(1337));
         test.bar{value: 100}(address(1337));
     }
 
-    function test_HoaxOrigin() public {
+    function testHoaxOrigin() public {
         hoax(address(1337), address(1337));
         test.origin{value: 100}(address(1337));
     }
 
-    function test_HoaxDifferentAddresses() public {
+    function testHoaxDifferentAddresses() public {
         hoax(address(1337), address(7331));
         test.origin{value: 100}(address(1337), address(7331));
     }
 
-    function test_StartHoax() public {
+    function testStartHoax() public {
         startHoax(address(1337));
         test.bar{value: 100}(address(1337));
         test.bar{value: 100}(address(1337));
@@ -49,7 +49,7 @@ contract StdCheatsTest is Test {
         test.bar(address(this));
     }
 
-    function test_StartHoaxOrigin() public {
+    function testStartHoaxOrigin() public {
         startHoax(address(1337), address(1337));
         test.origin{value: 100}(address(1337));
         test.origin{value: 100}(address(1337));
@@ -57,7 +57,7 @@ contract StdCheatsTest is Test {
         test.bar(address(this));
     }
 
-    function test_ChangePrankMsgSender() public {
+    function testChangePrankMsgSender() public {
         vm.startPrank(address(1337));
         test.bar(address(1337));
         changePrank(address(0xdead));
@@ -67,7 +67,7 @@ contract StdCheatsTest is Test {
         vm.stopPrank();
     }
 
-    function test_ChangePrankMsgSenderAndTxOrigin() public {
+    function testChangePrankMsgSenderAndTxOrigin() public {
         vm.startPrank(address(1337), address(1338));
         test.origin(address(1337), address(1338));
         changePrank(address(0xdead), address(0xbeef));
@@ -77,19 +77,19 @@ contract StdCheatsTest is Test {
         vm.stopPrank();
     }
 
-    function test_MakeAccountEquivalence() public {
+    function testMakeAccountEquivalence() public {
         Account memory account = makeAccount("1337");
         (address addr, uint256 key) = makeAddrAndKey("1337");
         assertEq(account.addr, addr);
         assertEq(account.key, key);
     }
 
-    function test_MakeAddrEquivalence() public {
+    function testMakeAddrEquivalence() public {
         (address addr,) = makeAddrAndKey("1337");
         assertEq(makeAddr("1337"), addr);
     }
 
-    function test_MakeAddrSigning() public {
+    function testMakeAddrSigning() public {
         (address addr, uint256 key) = makeAddrAndKey("1337");
         bytes32 hash = keccak256("some_message");
 
@@ -97,19 +97,19 @@ contract StdCheatsTest is Test {
         assertEq(ecrecover(hash, v, r, s), addr);
     }
 
-    function test_Deal() public {
+    function testDeal() public {
         deal(address(this), 1 ether);
         assertEq(address(this).balance, 1 ether);
     }
 
-    function tes_tDealToken() public {
+    function testDealToken() public {
         Bar barToken = new Bar();
         address bar = address(barToken);
         deal(bar, address(this), 10000e18);
         assertEq(barToken.balanceOf(address(this)), 10000e18);
     }
 
-    function test_DealTokenAdjustTotalSupply() public {
+    function testDealTokenAdjustTotalSupply() public {
         Bar barToken = new Bar();
         address bar = address(barToken);
         deal(bar, address(this), 10000e18, true);
@@ -120,14 +120,14 @@ contract StdCheatsTest is Test {
         assertEq(barToken.totalSupply(), 10000e18);
     }
 
-    function test_DealERC1155Token() public {
+    function testDealERC1155Token() public {
         BarERC1155 barToken = new BarERC1155();
         address bar = address(barToken);
         dealERC1155(bar, address(this), 0, 10000e18, false);
         assertEq(barToken.balanceOf(address(this), 0), 10000e18);
     }
 
-    function test_DealERC1155TokenAdjustTotalSupply() public {
+    function testDealERC1155TokenAdjustTotalSupply() public {
         BarERC1155 barToken = new BarERC1155();
         address bar = address(barToken);
         dealERC1155(bar, address(this), 0, 10000e18, true);
@@ -138,7 +138,7 @@ contract StdCheatsTest is Test {
         assertEq(barToken.totalSupply(0), 10000e18);
     }
 
-    function test_DealERC721Token() public {
+    function testDealERC721Token() public {
         BarERC721 barToken = new BarERC721();
         address bar = address(barToken);
         dealERC721(bar, address(2), 1);
@@ -149,12 +149,12 @@ contract StdCheatsTest is Test {
         assertEq(barToken.balanceOf(bar), 1);
     }
 
-    function test_DeployCode() public {
+    function testDeployCode() public {
         address deployed = deployCode("StdCheats.t.sol:Bar", bytes(""));
         assertEq(string(getCode(deployed)), string(getCode(address(test))));
     }
 
-    function test_DestroyAccount() public {
+    function testDestroyAccount() public {
         // deploy something to destroy it
         BarERC721 barToken = new BarERC721();
         address bar = address(barToken);
@@ -181,18 +181,18 @@ contract StdCheatsTest is Test {
         assertEq(bar.balance, 0);
     }
 
-    function test_DeployCodeNoArgs() public {
+    function testDeployCodeNoArgs() public {
         address deployed = deployCode("StdCheats.t.sol:Bar");
         assertEq(string(getCode(deployed)), string(getCode(address(test))));
     }
 
-    function test_DeployCodeVal() public {
+    function testDeployCodeVal() public {
         address deployed = deployCode("StdCheats.t.sol:Bar", bytes(""), 1 ether);
         assertEq(string(getCode(deployed)), string(getCode(address(test))));
         assertEq(deployed.balance, 1 ether);
     }
 
-    function test_DeployCodeValNoArgs() public {
+    function testDeployCodeValNoArgs() public {
         address deployed = deployCode("StdCheats.t.sol:Bar", 1 ether);
         assertEq(string(getCode(deployed)), string(getCode(address(test))));
         assertEq(deployed.balance, 1 ether);
@@ -203,7 +203,7 @@ contract StdCheatsTest is Test {
         deployCode(what);
     }
 
-    function test_DeployCodeFail() public {
+    function testDeployCodeFail() public {
         vm.expectRevert(bytes("StdCheats deployCode(string): Deployment failed."));
         this.deployCodeHelper("StdCheats.t.sol:RevertingContract");
     }
@@ -225,7 +225,7 @@ contract StdCheatsTest is Test {
         }
     }
 
-    function test_DeriveRememberKey() public {
+    function testDeriveRememberKey() public {
         string memory mnemonic = "test test test test test test test test test test test junk";
 
         (address deployer, uint256 privateKey) = deriveRememberKey(mnemonic, 0);
@@ -233,14 +233,14 @@ contract StdCheatsTest is Test {
         assertEq(privateKey, 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80);
     }
 
-    function test_BytesToUint() public {
+    function testBytesToUint() public {
         assertEq(3, bytesToUint_test(hex"03"));
         assertEq(2, bytesToUint_test(hex"02"));
         assertEq(255, bytesToUint_test(hex"ff"));
         assertEq(29625, bytesToUint_test(hex"73b9"));
     }
 
-    function test_ParseJsonTxDetail() public {
+    function testParseJsonTxDetail() public {
         string memory root = vm.projectRoot();
         string memory path = string.concat(root, "/test/fixtures/broadcast.log.json");
         string memory json = vm.readFile(path);
@@ -259,7 +259,7 @@ contract StdCheatsTest is Test {
         assertEq(txDetail.value, 0);
     }
 
-    function test_ReadEIP1559Transaction() public view {
+    function testReadEIP1559Transaction() public view {
         string memory root = vm.projectRoot();
         string memory path = string.concat(root, "/test/fixtures/broadcast.log.json");
         uint256 index = 0;
@@ -267,14 +267,14 @@ contract StdCheatsTest is Test {
         transaction;
     }
 
-    function test_ReadEIP1559Transactions() public view {
+    function testReadEIP1559Transactions() public view {
         string memory root = vm.projectRoot();
         string memory path = string.concat(root, "/test/fixtures/broadcast.log.json");
         Tx1559[] memory transactions = readTx1559s(path);
         transactions;
     }
 
-    function test_ReadReceipt() public {
+    function testReadReceipt() public {
         string memory root = vm.projectRoot();
         string memory path = string.concat(root, "/test/fixtures/broadcast.log.json");
         uint256 index = 5;
@@ -285,14 +285,14 @@ contract StdCheatsTest is Test {
         );
     }
 
-    function test_ReadReceipts() public view {
+    function testReadReceipts() public view {
         string memory root = vm.projectRoot();
         string memory path = string.concat(root, "/test/fixtures/broadcast.log.json");
         Receipt[] memory receipts = readReceipts(path);
         receipts;
     }
 
-    function test_GasMeteringModifier() public {
+    function testGasMeteringModifier() public {
         uint256 gas_start_normal = gasleft();
         addInLoop();
         uint256 gas_used_normal = gas_start_normal - gasleft();
@@ -335,7 +335,7 @@ contract StdCheatsTest is Test {
         return number;
     }
 
-    function testFuzz_AssumeAddressIsNot(address addr) external {
+    function testAssumeAddressIsNot(address addr) external {
         // skip over Payable and NonPayable enums
         for (uint8 i = 2; i < uint8(type(AddressType).max); i++) {
             assumeAddressIsNot(addr, AddressType(i));
@@ -345,7 +345,7 @@ contract StdCheatsTest is Test {
         assertTrue(addr != address(vm) || addr != 0x000000000000000000636F6e736F6c652e6c6f67);
     }
 
-    function test_AssumePayable() external {
+    function testAssumePayable() external {
         // We deploy a mock version so we can properly test the revert.
         StdCheatsMock stdCheatsMock = new StdCheatsMock();
 
@@ -373,7 +373,7 @@ contract StdCheatsTest is Test {
         stdCheatsMock.exposed_assumePayable(address(cp));
     }
 
-    function test_AssumeNotPayable() external {
+    function testAssumeNotPayable() external {
         // We deploy a mock version so we can properly test the revert.
         StdCheatsMock stdCheatsMock = new StdCheatsMock();
 
@@ -400,7 +400,7 @@ contract StdCheatsTest is Test {
         stdCheatsMock.exposed_assumeNotPayable(address(cp));
     }
 
-    function testFuzz_AssumeNotPrecompile(address addr) external {
+    function testAssumeNotPrecompile(address addr) external {
         assumeNotPrecompile(addr, getChain("optimism_goerli").chainId);
         assertTrue(
             addr < address(1) || (addr > address(9) && addr < address(0x4200000000000000000000000000000000000000))
@@ -408,15 +408,7 @@ contract StdCheatsTest is Test {
         );
     }
 
-    function testFuzz_AssumeNotForgeAddress(address addr) external {
-        assumeNotForgeAddress(addr);
-        assertTrue(
-            addr != address(vm) && addr != 0x000000000000000000636F6e736F6c652e6c6f67
-                && addr != 0x4e59b44847b379578588920cA78FbF26c0B4956C
-        );
-    }
-
-    function test_CannotDeployCodeTo() external {
+    function testCannotDeployCodeTo() external {
         vm.expectRevert("StdCheats deployCodeTo(string,bytes,uint256,address): Failed to create runtime bytecode.");
         this._revertDeployCodeTo();
     }
@@ -425,7 +417,7 @@ contract StdCheatsTest is Test {
         deployCodeTo("StdCheats.t.sol:RevertingContract", address(0));
     }
 
-    function test_DeployCodeTo() external {
+    function testDeployCodeTo() external {
         address arbitraryAddress = makeAddr("arbitraryAddress");
 
         deployCodeTo(
@@ -471,7 +463,7 @@ contract StdCheatsForkTest is Test {
         vm.createSelectFork({urlOrAlias: "mainnet", blockNumber: 16_428_900});
     }
 
-    function test_CannotAssumeNoBlacklisted_EOA() external {
+    function testCannotAssumeNoBlacklisted_EOA() external {
         // We deploy a mock version so we can properly test the revert.
         StdCheatsMock stdCheatsMock = new StdCheatsMock();
         address eoa = vm.addr({privateKey: 1});
@@ -479,31 +471,31 @@ contract StdCheatsForkTest is Test {
         stdCheatsMock.exposed_assumeNotBlacklisted(eoa, address(0));
     }
 
-    function testFuzz_AssumeNotBlacklisted_TokenWithoutBlacklist(address addr) external {
+    function testAssumeNotBlacklisted_TokenWithoutBlacklist(address addr) external {
         assumeNotBlacklisted(SHIB, addr);
         assertTrue(true);
     }
 
-    function test_AssumeNoBlacklisted_USDC() external {
+    function testAssumeNoBlacklisted_USDC() external {
         // We deploy a mock version so we can properly test the revert.
         StdCheatsMock stdCheatsMock = new StdCheatsMock();
         vm.expectRevert();
         stdCheatsMock.exposed_assumeNotBlacklisted(USDC, USDC_BLACKLISTED_USER);
     }
 
-    function testFuzz_AssumeNotBlacklisted_USDC(address addr) external {
+    function testAssumeNotBlacklisted_USDC(address addr) external {
         assumeNotBlacklisted(USDC, addr);
         assertFalse(USDCLike(USDC).isBlacklisted(addr));
     }
 
-    function test_AssumeNoBlacklisted_USDT() external {
+    function testAssumeNoBlacklisted_USDT() external {
         // We deploy a mock version so we can properly test the revert.
         StdCheatsMock stdCheatsMock = new StdCheatsMock();
         vm.expectRevert();
         stdCheatsMock.exposed_assumeNotBlacklisted(USDT, USDT_BLACKLISTED_USER);
     }
 
-    function testFuzz_AssumeNotBlacklisted_USDT(address addr) external {
+    function testAssumeNotBlacklisted_USDT(address addr) external {
         assumeNotBlacklisted(USDT, addr);
         assertFalse(USDTLike(USDT).isBlackListed(addr));
     }
