@@ -90,5 +90,15 @@ contract OmniCounterTest is Test {
         omniCounter_Mumbai.incrementCounter{value: 1 ether}(srcChainId);
         assertEq(omniCounter_Sepolia.counter(), counter_initial+1);
     }
+
+    function test_checking() public {
+
+        uint counter_initial = omniCounter_Mumbai.counter();
+
+        vm.deal(address(0x10), 100 ether);
+        vm.prank(address(0x10));
+        vm.expectRevert();
+        omniCounter_Mumbai.incrementCounter{value: 1 ether}(4);
+    }
  
 }
